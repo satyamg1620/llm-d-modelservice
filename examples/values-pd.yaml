@@ -38,6 +38,8 @@ decode:
     env:
       - name: UCX_TLS
         value: "tcp"
+      - name: VLLM_SKIP_KV_TRANSFER_INIT
+        value: "1"
       - name: VLLM_NIXL_SIDE_CHANNEL_HOST
         valueFrom:
           fieldRef:
