@@ -58,8 +58,8 @@ decode:
         memory: 16Gi
         cpu: "16"
       requests:
-        cpu: "16"
-        memory: 16Gi
+        cpu: "8"
+        memory: 8Gi
     mountModelVolume: true
 
 # Prefill pod configuation
@@ -97,6 +97,6 @@ prefill:
         memory: 16Gi
         cpu: "16"
       requests:
-        cpu: "16"
-        memory: 16Gi
+        cpu: "8"
+        memory: 8Gi
     mountModelVolume: true
