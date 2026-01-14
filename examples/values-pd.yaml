@@ -29,7 +29,7 @@ decode:
   replicas: 1
   containers:
   - name: "vllm"
-    image: "quay.io/satyam16/llm-d-cpu-dev:v0.2.1.6"
+    image: "quay.io/satyam16/llm-d-cpu-dev:v0.2.1.7"
     modelCommand: vllmServe
     args:
       - "--enforce-eager"
@@ -68,7 +68,7 @@ prefill:
   replicas: 1
   containers:
   - name: "vllm"
-    image: "quay.io/satyam16/llm-d-cpu-dev:v0.2.1.6"
+    image: "quay.io/satyam16/llm-d-cpu-dev:v0.2.1.7"
     modelCommand: vllmServe
     args:
       - "--enforce-eager"
