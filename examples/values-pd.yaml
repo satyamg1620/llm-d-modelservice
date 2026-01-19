@@ -35,6 +35,7 @@ decode:
       - "--enforce-eager"
       - "--kv-transfer-config"
       - '{"kv_connector":"NixlConnector", "kv_role":"kv_both", "kv_buffer_device":"cpu"}'
+      - '--dtype=float'
     env:
       - name: UCX_TLS
         value: "tcp"
@@ -74,6 +75,7 @@ prefill:
       - "--enforce-eager"
       - "--kv-transfer-config"
       - '{"kv_connector":"NixlConnector", "kv_role":"kv_both", "kv_buffer_device":"cpu"}'
+      - '--dtype=float'
     env:
       - name: UCX_TLS
         value: "tcp"
