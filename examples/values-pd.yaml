@@ -11,6 +11,7 @@ modelArtifacts:
   labels:
     llm-d.ai/inferenceServing: "true"
     llm-d.ai/model: facebook-opt-125m
+    app: facebook-opt-125m
   uri: hf://"{{ .Values.modelArtifacts.name }}"
   size: 20Gi
 
