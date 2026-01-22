@@ -36,8 +36,6 @@ decode:
       - "--kv-transfer-config"
       - '{"kv_connector":"NixlConnector", "kv_role":"kv_both", "kv_buffer_device":"cpu"}'
     env:
-      - name: HF_HOME
-        value: /tmp/hf_home
       - name: FLEX_DEVICE
         value: VF
       - name: TOKENIZERS_PARALLELISM
@@ -89,8 +87,6 @@ prefill:
       - "--kv-transfer-config"
       - '{"kv_connector":"NixlConnector", "kv_role":"kv_both", "kv_buffer_device":"cpu"}'
     env:
-      - name: HF_HOME
-        value: /tmp/hf_home
       - name: FLEX_DEVICE
         value: VF
       - name: TOKENIZERS_PARALLELISM
