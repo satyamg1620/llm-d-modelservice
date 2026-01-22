@@ -50,9 +50,10 @@ multinode: false
 # Supported types: nvidia, intel-i915, intel-xe, intel-gaudi, amd, google
 accelerator:
   # Type of accelerator to use
-  type: nvidia
+  type: spyre
   # Resource names for different accelerator types
   resources:
+    spyre: "ibm.com/spyre_vf"
     nvidia: "nvidia.com/gpu"
     intel-i915: "gpu.intel.com/i915"
     intel-xe: "gpu.intel.com/xe"
