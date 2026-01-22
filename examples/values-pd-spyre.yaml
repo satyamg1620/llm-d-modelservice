@@ -30,7 +30,12 @@ decode:
   containers:
   - name: "vllm-spyre"
     image: "quay.io/satyam16/llm-d-spyre-dev:v0.1.22"
-    modelCommand: vllmServe
+    command:
+      - /bin/bash
+      - -c
+      - source /etc/profile.d/ibm-aiu-setup.sh && exec python3 -m vllm.entrypoints.openai.api_server
+        "$@"
+      - --
     args:
       - "--enforce-eager"
       - "--kv-transfer-config"
@@ -50,6 +55,8 @@ decode:
         value: "1"
       - name: TORCH_SENDNN_CACHE_ENABLE
         value: "1"
+      - name: TORCH_SENDNN_CACHE_DIR
+        value: /root/.cache/torch
       - name: UCX_TLS
         value: "cuda_ipc,cuda_copy,tcp"
       - name: VLLM_NIXL_SIDE_CHANNEL_HOST
@@ -81,7 +88,12 @@ prefill:
   containers:
   - name: "vllm-spyre"
     image: "quay.io/satyam16/llm-d-spyre-dev:v0.1.22"
-    modelCommand: vllmServe
+    command:
+      - /bin/bash
+      - -c
+      - source /etc/profile.d/ibm-aiu-setup.sh && exec python3 -m vllm.entrypoints.openai.api_server
+        "$@"
+      - --
     args:
       - "--enforce-eager"
       - "--kv-transfer-config"
@@ -101,6 +113,8 @@ prefill:
         value: "1"
       - name: TORCH_SENDNN_CACHE_ENABLE
         value: "1"
+      - name: TORCH_SENDNN_CACHE_DIR
+        value: /root/.cache/torch
       - name: UCX_TLS
         value: "tcp"
       - name: VLLM_NIXL_SIDE_CHANNEL_PORT
