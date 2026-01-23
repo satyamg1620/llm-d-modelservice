@@ -40,6 +40,8 @@ decode:
       - "--enforce-eager"
       - "--kv-transfer-config"
       - '{"kv_connector":"NixlConnector", "kv_role":"kv_both", "kv_buffer_device":"cpu"}'
+      - "--model"
+      - "ibm-ai-platform/micro-g3.3-8b-instruct-1b"
     env:
       - name: FLEX_DEVICE
         value: VF
@@ -55,8 +57,6 @@ decode:
         value: "1"
       - name: TORCH_SENDNN_CACHE_ENABLE
         value: "1"
-      - name: TORCH_SENDNN_CACHE_DIR
-        value: /root/.cache/torch
       - name: UCX_TLS
         value: "cuda_ipc,cuda_copy,tcp"
       - name: VLLM_NIXL_SIDE_CHANNEL_HOST
@@ -98,6 +98,8 @@ prefill:
       - "--enforce-eager"
       - "--kv-transfer-config"
       - '{"kv_connector":"NixlConnector", "kv_role":"kv_both", "kv_buffer_device":"cpu"}'
+      - "--model"
+      - "ibm-ai-platform/micro-g3.3-8b-instruct-1b"
     env:
       - name: FLEX_DEVICE
         value: VF
@@ -113,8 +115,6 @@ prefill:
         value: "1"
       - name: TORCH_SENDNN_CACHE_ENABLE
         value: "1"
-      - name: TORCH_SENDNN_CACHE_DIR
-        value: /root/.cache/torch
       - name: UCX_TLS
         value: "tcp"
       - name: VLLM_NIXL_SIDE_CHANNEL_PORT
