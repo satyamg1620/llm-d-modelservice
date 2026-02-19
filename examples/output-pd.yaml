@@ -76,7 +76,7 @@ spec:
             
             - --enforce-eager
             - --kv-transfer-config
-            - '{"kv_connector":"NixlConnector", "kv_role":"kv_both"}'
+            - '{"kv_connector":"MultiConnector","kv_role":"kv_both","kv_connector_extra_config":{"connectors":[{"kv_connector":"NixlConnector","kv_role":"kv_both"},{"kv_connector":"ExampleConnector","kv_role":"kv_both","kv_connector_extra_config":{"shared_storage_path":"local_storage"}}]}}'
           env:
           - name: CUDA_VISIBLE_DEVICES
             value: "0"
@@ -167,7 +167,7 @@ spec:
             
             - --enforce-eager
             - --kv-transfer-config
-            - '{"kv_connector":"NixlConnector", "kv_role":"kv_both"}'
+            - '{"kv_connector":"MultiConnector","kv_role":"kv_both","kv_connector_extra_config":{"connectors":[{"kv_connector":"NixlConnector","kv_role":"kv_both"},{"kv_connector":"ExampleConnector","kv_role":"kv_both","kv_connector_extra_config":{"shared_storage_path":"local_storage"}}]}}'
           env:
           - name: CUDA_VISIBLE_DEVICES
             value: "0"
