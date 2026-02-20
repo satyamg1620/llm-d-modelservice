@@ -53,8 +53,6 @@ decode:
         - "--model"
         - "ibm-ai-platform/micro-g3.3-8b-instruct-1b"
     env:
-        - name: HF_HOME
-          value: /tmp/hf_home
         - name: FLEX_DEVICE
           value: VF
         - name: TOKENIZERS_PARALLELISM
@@ -144,7 +142,9 @@ prefill:
       limits:
         memory: 16Gi
         cpu: "16"
+        ibm.com/spyre_vf: '1'
       requests:
         cpu: "2"
         memory: 4Gi
+        ibm.com/spyre_vf: '1'
     mountModelVolume: true
