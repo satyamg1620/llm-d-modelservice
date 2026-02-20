@@ -52,7 +52,6 @@ decode:
         - --enable-chunked-prefill
         - --trust-remote-code
         - --prefix-caching-hash-algo sha256_cbor
-        - --kv-events-config '{"enable_kv_cache_events": "True", "publisher": "zmq", "topic": "kv-events"}'
         - --kv-events-config "{\"enable_kv_cache_events\":true,\"publisher\":\"zmq\",\"endpoint\":\"tcp://vllm-stack-kv-cache-manager.llm-d-spyre.svc.cluster.local:5557\",\"topic\":\"kv@${POD_IP}@ibm-ai-platform/micro-g3.3-8b-instruct-1b\"}"
         - "--model"
         - "ibm-ai-platform/micro-g3.3-8b-instruct-1b"
