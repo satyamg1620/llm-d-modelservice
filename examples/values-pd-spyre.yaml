@@ -7,10 +7,10 @@ multinode: false
 
 modelArtifacts:
 # This is the model name used to start vLLM.
-  name: ibm-ai-platform/micro-g3.3-8b-instruct-1b
+  name: vllm-micro-granite
   labels:
     llm-d.ai/inferenceServing: "true"
-    llm-d.ai/model: micro-g3.3-8b-instruct-1b
+    llm-d.ai/model: vllm-micro-granite
   uri: hf://"{{ .Values.modelArtifacts.name }}"
   size: 20Gi
 
