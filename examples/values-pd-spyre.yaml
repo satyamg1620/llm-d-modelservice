@@ -52,7 +52,7 @@ decode:
     args:
         - --model=/mnt/models
         - --port=8000
-        - --served-model-name={{.Name}}
+        # - --served-model-name={{.Name}}
         - --max-model-len=3072
         - --max-num-seqs=16
         - --enable-prefix-caching
