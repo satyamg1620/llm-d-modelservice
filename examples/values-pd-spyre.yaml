@@ -60,7 +60,7 @@ decode:
         - --trust-remote-code
         - --prefix-caching-hash-algo sha256_cbor
         - --kv-events-config 
-        - - |-
+        - |-
           {
             "enable_kv_cache_events": true,
             "publisher": "zmq",
