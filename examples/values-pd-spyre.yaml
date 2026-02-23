@@ -32,6 +32,8 @@ routing:
 
 # Decode pod configuation
 decode:
+  podAnnotations:
+    sidecar.istio.io/inject: "false"
   create: true
   replicas: 2
   containers:
