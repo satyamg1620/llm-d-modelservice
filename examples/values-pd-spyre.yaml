@@ -59,14 +59,7 @@ decode:
         - --enable-chunked-prefill
         - --trust-remote-code
         - --prefix-caching-hash-algo sha256_cbor
-        - --kv-events-config 
-        - |-
-          {
-            "enable_kv_cache_events": true,
-            "publisher": "zmq",
-            "endpoint": "tcp://*:5557",
-            "topic": "kv@$(POD_IP)@ibm-ai-platform/micro-g3.3-8b-instruct-1b"
-          }
+        - --kv-events-config=$(KV_EVENTS_CONFIG)
         - "--model"
         - "ibm-ai-platform/micro-g3.3-8b-instruct-1b"
     env:
@@ -95,6 +88,9 @@ decode:
             fieldRef:
               apiVersion: v1
               fieldPath: status.podIP
+        - name: KV_EVENTS_CONFIG
+          value: >-
+            {"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://vllm-stack-kv-cache-manager.llm-d-spyre.svc.cluster.local:5557","topic":"kv@$(POD_IP)@ibm-ai-platform/micro-g3.3-8b-instruct-1b"}
 
 
     ports:
