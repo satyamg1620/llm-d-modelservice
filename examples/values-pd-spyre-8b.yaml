@@ -39,6 +39,7 @@ decode:
   containers:
   - name: "vllm-spyre"
     image: "us.icr.io/wxpe-cicd-internal/s390x/aiu-vllm:v1.1.1-cp-512-s390x"
+    modelCommand: imageDefault
     args:
         - '--model'
         - /model-cache/models/ibm-granite/granite-3.3-8b-instruct
