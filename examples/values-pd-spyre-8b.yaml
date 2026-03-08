@@ -1,0 +1,182 @@
+# This values.yaml file creates the resources for a P/D disaggregation scenario
+# Uses a small model: facebook/opt-125m
+# See also defaults in chart values.yaml
+
+# When true, LeaderWorkerSet is used instead of Deployment
+multinode: false
+
+modelArtifacts:
+# This is the model name used to start vLLM.
+  name: vllm-granite-8b
+  labels:
+    llm-d.ai/inferenceServing: "true"
+    llm-d.ai/model: vllm-granite-8b
+  uri: hf://"{{ .Values.modelArtifacts.name }}"
+  size: 20Gi
+
+# Describe routing requirements. In addition to service level routing (OpenAI model name, service port)
+# also describes elements for Gateway API Inference Extension configuration
+routing:
+  proxy:
+    enabled: false
+    targetPort: 8000
+    secure: false
+# routing:
+#   proxy:
+#     enabled: false  # removes sidecar from deployment - no PD in inference scheduling
+#     targetPort: 8000  # controls vLLM port to matchup with sidecar if deployed
+
+  # other fields are inherited from chart values.yaml
+  # proxy:
+  #   secure: false
+
+# Decode pod configuation
+decode:
+  podAnnotations:
+    sidecar.istio.io/inject: "false"
+  create: true
+  replicas: 2
+  containers:
+  - name: "vllm-spyre"
+    image: "us.icr.io/wxpe-cicd-internal/s390x/aiu-vllm:v1.1.1-cp-512-s390x"
+    args:
+        - '--model'
+        - /model-cache/models/ibm-granite/granite-3.3-8b-instruct
+        - '--port'
+        - '8000'
+        - '--tensor-parallel-size'
+        - '4'
+        - '--served-model-name'
+        - ibm-granite/granite-3.3-8b-instruct
+        - '--host'
+        - 0.0.0.0
+        - '--model'
+        - /model-cache/models/ibm-granite/granite-3.3-8b-instruct
+        - '--served-model-name'
+        - ibm-granite/granite-3.3-8b-instruct
+        - '--port'
+        - '8000'
+        - '--max-num-seqs'
+        - '32'
+        - '--max-model-len'
+        - '32768'
+        - '--tensor-parallel-size'
+        - '4'
+        - '--max-num-batched-tokens'
+        - '512'
+        - '--enable-prefix-caching'
+        - '--prefix-caching-hash-algo'
+        - sha256_cbor
+        - '--kv-events-config'
+        - '{"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://ibm-gran-f422a27c-instruct-gaie-epp.llm-d-spyre.svc.cluster.local:5557","topic":"kv@${POD_IP}@Qibm-granite/granite-3.3-8b-instruct"}'
+    env:
+            - name: VLLM_IS_DECODE
+              value: '1'
+            - name: LLMDBENCH_POD_LABELS
+            - name: LLMDBENCH_POD_NS
+              value: llmdbench
+            - name: SERVED_MODEL_NAME
+              value: ibm-granite/granite-3.3-8b-instruct
+            - name: HF_HUB_OFFLINE
+              value: '0'
+            - name: VLLM_SPYRE_PERF_METRIC_LOGGING_ENABLED
+              value: '1'
+            - name: TORCH_SENDNN_CACHE_ENABLE
+              value: '1'
+            - name: TORCH_SENDNN_CACHE_DIR
+              value: /opt/ibm/spyre/models/cache/
+            - name: PORT
+              value: '8000'
+            - name: VLLM_SPYRE_DYNAMO_BACKEND
+              value: sendnn
+            - name: VLLM_SPYRE_USE_CB
+              value: '1'
+            - name: VLLM_SPYRE_USE_CHUNKED_PREFILL
+              value: '1'
+            - name: VLLM_DT_CHUNK_LEN
+              value: '512'
+            - name: DTLOG_LEVEL
+              value: error
+            - name: TORCH_SENDNN_LOG
+              value: CRITICAL
+            - name: PYTHONHASHSEED
+              value: '67'
+            - name: VLLM_SPYRE_REQUIRE_PRECOMPILED_DECODERS
+              value: '1'
+            - name: VLLM_BLOCK_SIZE
+              value: '64'
+            - name: VLLM_MAX_MODEL_LEN
+              value: '32768'
+            - name: VLLM_LOAD_FORMAT
+              value: auto
+            - name: VLLM_ACCELERATOR_MEM_UTIL
+              value: '0.95'
+            - name: VLLM_MAX_NUM_SEQ
+              value: '32'
+            - name: VLLM_TENSOR_PARALLELISM
+              value: '4'
+            - name: VLLM_MAX_NUM_BATCHED_TOKENS
+              value: '512'
+            - name: VLLM_WORKER_MULTIPROC_METHOD
+              value: spawn
+            - name: VLLM_SERVER_DEV_MODE
+              value: '1'
+            - name: VLLM_LOGGING_LEVEL
+              value: INFO
+            - name: VLLM_CACHE_ROOT
+              value: /tmp/vllm
+            - name: VLLM_INFERENCE_PORT
+              value: '8000'
+            - name: VLLM_METRICS_PORT
+              value: '8200'
+            - name: VLLM_ALLOW_LONG_MAX_MODEL_LEN
+              value: '1'
+            - name: VLLM_NIXL_SIDE_CHANNEL_PORT
+              value: '5557'
+            - name: UCX_TLS
+              value: 'sm,cuda_ipc,cuda_copy,tcp'
+            - name: UCX_SOCKADDR_TLS_PRIORITY
+              value: tcp
+            - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: DP_SIZE
+              value: '1'
+            - name: TP_SIZE
+              value: '4'
+            - name: DP_SIZE_LOCAL
+              value: '1'
+            - name: KV_EVENTS_CONFIG
+              value: value: '{"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://ibm-gran-f422a27c-instruct-gaie-epp.llm-d-spyre.svc.cluster.local:5557","topic":"kv@${POD_IP}@Qibm-granite/granite-3.3-8b-instruct"}'
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: llm-d-hf-token
+                  key: HF_TOKEN
+
+    ports:
+        - containerPort: 8000
+          name: vllm
+          protocol: TCP
+
+    resources:
+      limits:
+        memory: 200Gi
+        cpu: "10"
+        ibm.com/spyre_vf: '4'
+      requests:
+        cpu: "2"
+        memory: 4Gi
+        ibm.com/spyre_vf: '4'
+    mountModelVolume: true
+
+# Prefill pod configuation
+prefill:
+  create: false
