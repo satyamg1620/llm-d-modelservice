@@ -154,7 +154,7 @@ decode:
             - name: DP_SIZE_LOCAL
               value: '1'
             - name: KV_EVENTS_CONFIG
-              value: value: '{"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://ibm-gran-f422a27c-instruct-gaie-epp.llm-d-spyre.svc.cluster.local:5557","topic":"kv@${POD_IP}@Qibm-granite/granite-3.3-8b-instruct"}'
+              value: '{"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://ibm-gran-f422a27c-instruct-gaie-epp.llm-d-spyre.svc.cluster.local:5557","topic":"kv@${POD_IP}@Qibm-granite/granite-3.3-8b-instruct"}'
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:
