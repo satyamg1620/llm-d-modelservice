@@ -73,9 +73,6 @@ decode:
     env:
             - name: VLLM_IS_DECODE
               value: '1'
-            - name: LLMDBENCH_POD_LABELS
-            - name: LLMDBENCH_POD_NS
-              value: llmdbench
             - name: SERVED_MODEL_NAME
               value: ibm-granite/granite-3.3-8b-instruct
             - name: HF_HUB_OFFLINE
@@ -148,12 +145,6 @@ decode:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: status.podIP
-            - name: DP_SIZE
-              value: '1'
-            - name: TP_SIZE
-              value: '4'
-            - name: DP_SIZE_LOCAL
-              value: '1'
             - name: KV_EVENTS_CONFIG
               value: '{"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://ibm-gran-f422a27c-instruct-gaie-epp.llm-d-spyre.svc.cluster.local:5557","topic":"kv@${POD_IP}@Qibm-granite/granite-3.3-8b-instruct"}'
             - name: HF_TOKEN
