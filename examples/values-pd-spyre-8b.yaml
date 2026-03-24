@@ -41,19 +41,9 @@ decode:
     image: "us.icr.io/wxpe-cicd-internal/s390x/aiu-vllm:v1.1.1-cp-512-s390x"
     modelCommand: imageDefault
     args:
-        - '--model'
-        - /model-cache/models/ibm-granite/granite-3.3-8b-instruct
-        - '--port'
-        - '8000'
-        - '--tensor-parallel-size'
-        - '4'
-        - '--served-model-name'
-        - ibm-granite/granite-3.3-8b-instruct
         - '--host'
         - 0.0.0.0
         - '--model'
-        - /model-cache/models/ibm-granite/granite-3.3-8b-instruct
-        - '--served-model-name'
         - ibm-granite/granite-3.3-8b-instruct
         - '--port'
         - '8000'
@@ -129,17 +119,6 @@ decode:
               value: '8200'
             - name: VLLM_ALLOW_LONG_MAX_MODEL_LEN
               value: '1'
-            - name: VLLM_NIXL_SIDE_CHANNEL_PORT
-              value: '5557'
-            - name: UCX_TLS
-              value: 'sm,cuda_ipc,cuda_copy,tcp'
-            - name: UCX_SOCKADDR_TLS_PRIORITY
-              value: tcp
-            - name: VLLM_NIXL_SIDE_CHANNEL_HOST
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
             - name: POD_IP
               valueFrom:
                 fieldRef:
@@ -147,11 +126,6 @@ decode:
                   fieldPath: status.podIP
             - name: KV_EVENTS_CONFIG
               value: '{"enable_kv_cache_events":true,"publisher":"zmq","endpoint":"tcp://ibm-gran-f422a27c-instruct-gaie-epp.llm-d-spyre.svc.cluster.local:5557","topic":"kv@${POD_IP}@Qibm-granite/granite-3.3-8b-instruct"}'
-            - name: HF_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: llm-d-hf-token
-                  key: HF_TOKEN
 
     ports:
         - containerPort: 8000
