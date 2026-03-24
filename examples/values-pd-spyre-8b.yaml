@@ -35,7 +35,7 @@ decode:
   podAnnotations:
     sidecar.istio.io/inject: "false"
   create: true
-  replicas: 2
+  replicas: 1
   containers:
   - name: "vllm-spyre"
     image: "us.icr.io/wxpe-cicd-internal/s390x/aiu-vllm:v1.1.1-cp-512-s390x"
